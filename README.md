@@ -1,6 +1,6 @@
-# Random Pipeline
+# Random Pcg Pipeline
 
-This is a package that makes getting random values a little bit easier in Elm.
+This is a package that makes getting random values a little bit easier in Elm. Its just like the package `Chadtech/random-pipeline`, except its adapted to use `mgold/elm-random-pcg` instead of the core random package.
 
 Heres a side by side comparison between `Random` and `Random.Pipeline`
 
@@ -20,8 +20,8 @@ init =
     Random.step modelGenerator
 
 
--- Random.Pipeline
-import Random.Pipeline exposing (from, with)
+-- Random.Pcg.Pipeline
+import Random.Pcg.Pipeline exposing (from, with)
 
 init : Seed -> ( Model, Seed )
 init seed =
@@ -36,7 +36,7 @@ init seed =
 A little bit cleaner right? And what if we wanted to keep the seed in our `Model` too? Just use `Random.Pipeline.finish`
 
 ```elm
-import Random.Pipeline exposing (from, with, finish)
+import Random.Pcg.Pipeline exposing (from, with, finish)
 
 init : Seed -> Model
 init seed =
@@ -61,17 +61,17 @@ type alias Model =
 It also has `always` that can hardcode values into your random generation.
 
 ```elm
-import Random.Pipeline exposing (from, with, finish, always)
+import Random.Pcg.Pipeline exposing (from, with, finish, always)
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         Restart ->
             Model
-                |> Random.from model.seed
-                |> Random.with positionGenerator
-                |> Random.with enemiesGenerator
-                |> Random.always model.uuid
-                |> Random.always model.name
-                |> Random.finish
+                |> from model.seed
+                |> with positionGenerator
+                |> with enemiesGenerator
+                |> always model.uuid
+                |> always model.name
+                |> finish
 ```
